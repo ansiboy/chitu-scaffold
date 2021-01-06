@@ -1,0 +1,39 @@
+var requirejsConfig = {
+    "paths": {
+        "css": "node_modules/maishu-requirejs-plugins/lib/css",
+        "text": "node_modules/maishu-requirejs-plugins/lib/text",
+        "react": "node_modules/react/umd/react.development",
+        "react-dom": "node_modules/react-dom/umd/react-dom.development",
+        "maishu-chitu": "node_modules/maishu-chitu/dist/index.min",
+        "maishu-chitu-react": "node_modules/maishu-chitu-react/dist/index.min",
+        "maishu-chitu-service": "node_modules/maishu-chitu-service/dist/index.min",
+        "maishu-dilu": "node_modules/maishu-dilu/dist/index.min",
+        "maishu-toolkit": "node_modules/maishu-toolkit/dist/index.min",
+        "maishu-ui-toolkit": "node_modules/maishu-ui-toolkit/dist/index.min",
+        "maishu-wuzhui": "node_modules/maishu-wuzhui/dist/index.min",
+        "maishu-wuzhui-helper": "node_modules/maishu-wuzhui-helper/dist/index.min",
+    }
+}
+
+requirejs(["website-config"], function (mod) {
+    let config: WebsiteConfig = mod.default || mod;
+    loadApplication(config);
+})
+
+function loadApplication(config: WebsiteConfig) {
+    config.requirejs = config.requirejs || {};
+    config.requirejs.paths = Object.assign(config.requirejs.paths || {}, requirejsConfig.paths);
+
+    requirejs.config(config.requirejs || {});
+    requirejs(["application", "init"], (mod, initModule) => {
+        let app = mod.run(config);
+        let func = initModule.default || initModule;
+        if (typeof func != "function") {
+            console.log("Export of init module is not a function.");
+        }
+        else {
+            func(app);
+            app.run();
+        }
+    });
+}

@@ -1,0 +1,21 @@
+{
+    "dependencies": {
+        "@babel/code-frame": "^7.8.3",
+        "@babel/core": "^7.4.4",
+        "@babel/plugin-proposal-decorators": "^7.12.12",
+        "@babel/plugin-transform-modules-amd": "^7.12.1",
+        "@babel/plugin-transform-react-jsx": "^7.8.3",
+        "@babel/plugin-transform-runtime": "^7.12.10",
+        "@babel/plugin-transform-typescript": "^7.8.3",
+        "@babel/preset-env": "^7.4.4",
+        "@types/node": "^14.14.20",
+        "maishu-node-web-server": "^1.14.0",
+        "maishu-nws-js": "file:../nws-js",
+        "maishu-nws-mvc": "file:../node-web-server-mvc",
+        "requirejs": "^2.3.6",
+        "yargs": "^16.2.0"
+    },
+    "devDependencies": {
+        "maishu-chitu-react": "^1.27.0"
+    }
+}
