@@ -202,3 +202,5 @@ type SimpleMenuItem = {
 	parentId?: string,
 	hidden?: boolean,
 };
+
+declare let requirejs: Function & { config?: Function };

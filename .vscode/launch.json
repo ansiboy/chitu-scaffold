@@ -8,8 +8,11 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/temp.js",
-            "cwd": "${workspaceFolder}"
+            "program": "${workspaceFolder}/cli/index.js",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "demo"
+            ]
         }
     ]
 }
