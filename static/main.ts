@@ -16,11 +16,11 @@ var requirejsConfig = {
 }
 
 requirejs(["website-config"], function (mod) {
-    let config: WebsiteConfig = mod.default || mod;
+    let config = mod.default || mod;
     loadApplication(config);
 })
 
-function loadApplication(config: WebsiteConfig) {
+function loadApplication(config) {
     config.requirejs = config.requirejs || {};
     config.requirejs.paths = Object.assign(config.requirejs.paths || {}, requirejsConfig.paths);
 

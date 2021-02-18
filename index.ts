@@ -1,25 +1,28 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.getVirtualPaths = void 0;
-const fs = require("fs");
-const path = require("path");
-const maishu_toolkit_1 = require("maishu-toolkit");
+import * as  fs from "fs";
+import * as path from "path";
+import { pathConcat } from "maishu-toolkit";
+
 /** @param {string} [basePath]  */
-function getVirtualPaths(basePath) {
+export function getVirtualPaths(basePath?: string) {
     basePath = basePath || "/";
+
     let staticDir = path.join(__dirname, "static");
     let files = fs.readdirSync(staticDir);
     /** @type {{ [key: string]: string }} */
-    let result = {};
+    let result: { [key: string]: string } = {};
     for (let i = 0; i < files.length; i++) {
         let p = path.join(staticDir, files[i]);
         if (!fs.statSync(p).isFile())
             continue;
+
         if (files[i].endsWith(".d.ts"))
             continue;
-        let virtuaPath = maishu_toolkit_1.pathConcat(basePath, files[i]);
+
+        let virtuaPath = pathConcat(basePath, files[i]);
         result[virtuaPath] = p;
     }
+
     return result;
 }
-exports.getVirtualPaths = getVirtualPaths;
+
+

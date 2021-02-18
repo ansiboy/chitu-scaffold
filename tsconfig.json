@@ -5,6 +5,7 @@
     },
     "compileOnSave": true,
     "exclude": [
+        "static",
         "demo",
         "demo-static"
     ]

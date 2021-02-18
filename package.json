@@ -17,9 +17,6 @@
         "maishu-chitu-react": "^1.27.0",
         "mocha": "^8.3.0"
     },
-    "bin": {
-        "cs": "./cli/index.js"
-    },
     "name": "maishu-chitu-scaffold",
-    "version": "1.9.0"
+    "version": "1.9.2"
 }
