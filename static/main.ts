@@ -1,6 +1,8 @@
+/// <reference path="./declare.d.ts" />
+
 var requirejsConfig = {
     "paths": {
-        "css": "node_modules/maishu-requirejs-plugins/lib/css",
+        "css": "node_modules/maishu-requirejs-plugins/src/css",
         "text": "node_modules/maishu-requirejs-plugins/lib/text",
         "react": "node_modules/react/umd/react.development",
         "react-dom": "node_modules/react-dom/umd/react-dom.development",
