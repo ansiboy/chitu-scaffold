@@ -32,7 +32,7 @@ node-mvc <website path>
 ```
 
 ```
-node-mvc <website path>
+node-static <website path>
 ```
 
 1. nws-config.js 文件
