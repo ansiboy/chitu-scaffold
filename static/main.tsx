@@ -4,6 +4,8 @@ var requirejsConfig = {
     "paths": {
         "css": "node_modules/maishu-requirejs-plugins/src/css",
         "text": "node_modules/maishu-requirejs-plugins/lib/text",
+        "json": "node_modules/maishu-requirejs-plugins/src/json",
+
         "react": "node_modules/react/umd/react.development",
         "react-dom": "node_modules/react-dom/umd/react-dom.development",
         "maishu-chitu": "node_modules/maishu-chitu/dist/index.min",
@@ -26,9 +28,9 @@ function loadApplication(config) {
     config.requirejs = config.requirejs || {};
     config.requirejs.paths = Object.assign(config.requirejs.paths || {}, requirejsConfig.paths);
 
-    requirejs.config(config.requirejs || {});
-    requirejs(["application", "init"], (mod, initModule) => {
-        let app = mod.run(config);
+    let req = requirejs.config(config.requirejs || {});
+    req(["application", "init"], (mod, initModule) => {
+        let app = mod.run(config, req);
         let func = initModule.default || initModule;
         if (typeof func != "function") {
             console.log("Export of init module is not a function.");
