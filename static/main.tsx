@@ -19,25 +19,43 @@ var requirejsConfig = {
     }
 }
 
-requirejs(["website-config"], function (mod) {
+requirejs(["website-config"], function (mod: any) {
     let config = mod.default || mod;
     loadApplication(config);
 })
 
-function loadApplication(config) {
+function loadApplication(config: import("./website-config").WebsiteConfig) {
     config.requirejs = config.requirejs || {};
     config.requirejs.paths = Object.assign(config.requirejs.paths || {}, requirejsConfig.paths);
 
     let req = requirejs.config(config.requirejs || {});
-    req(["application", "init"], (mod, initModule) => {
-        let app = mod.run(config, req);
-        let func = initModule.default || initModule;
-        if (typeof func != "function") {
-            console.log("Export of init module is not a function.");
-        }
-        else {
-            func(app);
-            app.run();
-        }
-    });
+
+    let init = function () {
+        req(["application", "init"], (mod, initModule) => {
+            let app = mod.run(config, req);
+            let func = initModule.default || initModule;
+            if (typeof func != "function") {
+                console.log("Export of init module is not a function.");
+            }
+            else {
+                func(app);
+                app.run();
+            }
+        });
+    }
+
+    if (config.mode == "production") {
+        req(["pre-required"], function (prerequired) {
+            let keys = Object.getOwnPropertyNames(prerequired);
+            for (let i = 0; i < keys.length; i++) {
+                define(keys[i], function () {
+                    return prerequired[keys[i]];
+                })
+            }
+            init();
+        });
+    }
+    else {
+        init();
+    }
 }

@@ -1,10 +1,18 @@
-export default {
-    "requirejs": {
-        "paths": {
-        }
+export interface WebsiteConfig {
+    requirejs?: {
+        shim?: {
+            [key: string]: { deps?: string[], exports?: string, }
+        },
+        paths?: { [key: string]: string },
+        context?: string,
     },
-    "containers": {
-        "simple": [],
-        "blank": []
-    }
+    containers?: { [pageName: string]: string },
+    mode?: "production" | "development"
 }
+
+
+let websiteConfig: WebsiteConfig = {
+    mode: "production",
+}
+
+export default websiteConfig
