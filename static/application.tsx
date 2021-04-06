@@ -83,20 +83,25 @@ class MyApplication extends Application {
         return req;
     }
 
-    parseUrl(pathname: string) {
-        if (pathname.startsWith("http")) {
+    parseUrl(url: string) {
+
+        let pathname: string;
+        if (url.startsWith("http")) {
             let a = document.createElement("a");
-            a.href = pathname;
+            a.href = url;
             pathname = a.pathname;
             if (pathname[0] == '/') {
                 pathname = pathname.substr(1);
             }
         }
+        else {
+            pathname = url;
+        }
 
         let p = new UrlPattern("*.ct(/*)");
         let m = p.match(pathname);
         if (!m)
-            return super.parseUrl(pathname);
+            return super.parseUrl(url);
 
         let pageName = typeof m["_"] == "string" ? m["_"] : m["_"][0];
         let values: PageData | null = null;
