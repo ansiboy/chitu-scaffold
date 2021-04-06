@@ -1,4 +1,3 @@
-const { pathConcat } = require("../../node-mvc/out");
 const { sourceVirtualPaths } = require("../index");
 let fileVirtualPaths = sourceVirtualPaths(__dirname);
 

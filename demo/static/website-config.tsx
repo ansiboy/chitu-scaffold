@@ -1,15 +1,16 @@
 import { WebsiteConfig } from "../../static/website-config";
 
 let websiteConfig: WebsiteConfig = {
-    mode: "development",
+    mode: "production",
     requirejs: {
         paths: {
             "url-pattern": "node_modules/url-pattern/lib/url-pattern"
         }
     },
     routers: {
-        "test/a": ":id"
-    }
+        "test/a": ":id(/*)"
+    },
+    
 }
 
 export default websiteConfig

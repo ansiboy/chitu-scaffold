@@ -7,3 +7,4 @@ exports["maishu-toolkit"] = require("maishu-toolkit");
 
 exports["css"] = require("maishu-requirejs-plugins/src/css");
 exports["text"] = require("maishu-requirejs-plugins/lib/text");
+exports["url-pattern"] = require("url-pattern");
