@@ -1,15 +1,21 @@
 
 import { Application } from "maishu-chitu-react";
 import { pathConcat } from "maishu-toolkit";
+import { WebsiteConfig, default as w } from "./website-config";
+import { PageData } from "maishu-chitu";
+import * as UrlPattern from "url-pattern";
+
 
 class MyApplication extends Application {
 
     private req: Function;
+    private websiteConfigs: { [sitePath: string]: WebsiteConfig } = {};
 
     constructor(config: any, req: Function) {
         super(config);
 
         this.req = req;
+
     }
 
     private siteRequireJS = {};
@@ -52,15 +58,19 @@ class MyApplication extends Application {
         });
     }
 
-    private getWebsiteConfig(sitePath: string) {
-        return new Promise<WebsiteConfig>((resolve, reject) => {
-            let websiteConfigPath = pathConcat(sitePath, "website-config.js");
-            requirejs([websiteConfigPath], mod => {
-                resolve(mod.default || mod);
-            }, err => {
-                reject(err);
+    private async getWebsiteConfig(sitePath: string): Promise<WebsiteConfig> {
+        if (!this.websiteConfigs[sitePath]) {
+            this.websiteConfigs[sitePath] = await new Promise<WebsiteConfig>((resolve, reject) => {
+                let websiteConfigPath = pathConcat(sitePath, "website-config.js");
+                requirejs([websiteConfigPath], mod => {
+                    resolve(mod.default || mod);
+                }, err => {
+                    reject(err);
+                })
             })
-        })
+        }
+
+        return this.websiteConfigs[sitePath];
     }
 
     private configRequirejs(stationWebsiteConfig: WebsiteConfig, sitePath: string) {
@@ -73,9 +83,35 @@ class MyApplication extends Application {
         return req;
     }
 
+    parseUrl(pathname: string) {
+        if (pathname.startsWith("http")) {
+            let a = document.createElement("a");
+            a.href = pathname;
+            pathname = a.pathname;
+            if (pathname[0] == '/') {
+                pathname = pathname.substr(1);
+            }
+        }
+
+        let p = new UrlPattern("*.ct(/*)");
+        let m = p.match(pathname);
+        if (!m)
+            return super.parseUrl(pathname);
+
+        let pageName = typeof m["_"] == "string" ? m["_"] : m["_"][0];
+        let values: PageData | null = null;
+        let routers = w.routers || {};
+        if (routers[pageName] && Array.isArray(m["_"])) {
+            p = new UrlPattern(routers[pageName]);
+            values = p.match(m["_"][1]);
+        }
+
+        return { pageName, values: values || {} };
+    }
+
 }
 
 export function run(config: any, req) {
-    window["app"] = window["app"] || new MyApplication(config, req)
+    let app: MyApplication = window["app"] = window["app"] || new MyApplication(config, req);
     return window["app"];
 }

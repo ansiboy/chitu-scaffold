@@ -10,13 +10,18 @@ export interface WebsiteConfig {
     containers?: { [pageName: string]: string },
     mode?: "production" | "development",
 
-    /** 初始化的模块，requirejs 模块名或者路径 */
-    init?: string,
+    routers?: { [pagePath: string]: string }
+
 }
 
 
 let websiteConfig: WebsiteConfig = {
-    mode: "production",
+    mode: "development",
+    requirejs: {
+        paths: {
+            "url-pattern": "node_modules/url-pattern/lib/url-pattern"
+        }
+    }
 }
 
 export default websiteConfig

@@ -1,13 +1,18 @@
 {
   "dependencies": {
-    "maishu-chitu-react": "^1.27.0",
+    "crossroads": "^0.12.2",
     "maishu-chitu": "^3.28.0",
+    "maishu-chitu-react": "^1.30.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "requirejs": "^2.3.6"
+    "requirejs": "^2.3.6",
+    "signals": "^1.0.0"
   },
   "devDependencies": {
-    "@types/react": "^17.0.0"
+    "@babel/preset-env": "^7.13.12",
+    "@types/react": "^17.0.0",
+    "maishu-node-mvc": "^2.18.2",
+    "maishu-nws-mvc": "^1.7.3"
   },
   "name": "maishu-chitu-scaffold",
   "bin": {

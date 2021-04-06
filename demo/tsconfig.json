@@ -1,6 +1,9 @@
 {
     "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
         "jsx": "react",
-        "noEmit": true
+        "noEmit": true,
+        "experimentalDecorators": true
     }
 }

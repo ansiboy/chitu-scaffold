@@ -1,6 +1,6 @@
 const { pathConcat } = require("../../node-mvc/out");
-const { getVirtualPaths } = require("../index");
-let fileVirtualPaths = getVirtualPaths("static", pathConcat(__dirname, "static"));
+const { sourceVirtualPaths } = require("../index");
+let fileVirtualPaths = sourceVirtualPaths(__dirname);
 
 module.exports = {
     "port": 5262,
