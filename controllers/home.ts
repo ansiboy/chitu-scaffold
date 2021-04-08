@@ -1,4 +1,4 @@
-import { controller, action, serverContext, ServerContext, ContentResult, VirtualDirectory } from "maishu-node-mvc";
+import { controller, action, serverContext, ServerContext, ContentResult, VirtualDirectory, routeData } from "maishu-node-mvc";
 import * as path from "path";
 import * as fs from "fs";
 import { errors } from "../errors";
@@ -9,28 +9,41 @@ import * as vm from "vm";
 import * as os from "os";
 import { guid, pathConcat } from "maishu-toolkit";
 
-let htmlPath = path.join(__dirname, "../static/index.html");
+// let htmlPath = path.join(__dirname, "../static/index.html");
+
+let pgaeAction = action(function (virtualPath, ctx) {
+    let root = typeof ctx.rootDirectory == "string" ? new VirtualDirectory(ctx.rootDirectory) : ctx.rootDirectory;
+    let websiteConfig = HomeController.loadWebsiteConfig(root);
+    let routers = websiteConfig.routers || {};
+    let keys = Object.keys(routers);
+    for (let i = 0; i < keys.length; i++) {
+        let p = new UrlPattern(keys[i]);
+        let m = p.match(virtualPath);
+        if (m) {
+            Object.assign(m, routers[keys[i]]);
+            m.html = m.html || "index.html";
+            return m;
+        }
+    }
+
+    return null;
+})
+
 
 @controller("/")
 export default class HomeController {
     private static websiteConfig: WebsiteConfig;
 
-    @action((virtualPath, ctx) => {
-        let root = typeof ctx.rootDirectory == "string" ? new VirtualDirectory(ctx.rootDirectory) : ctx.rootDirectory;
-        let websiteConfig = HomeController.loadWebsiteConfig(root);
-        let routers = websiteConfig.routers || {};
-        let keys = Object.keys(routers);
-        for (let i = 0; i < keys.length; i++) {
-            let p = new UrlPattern(keys[i]);
-            let m = p.match(virtualPath);
-            if (m)
-                return m;
-        }
-        return null;
-    })
-    g(@serverContext ctx: ServerContext) {
-        if (!fs.existsSync(htmlPath))
-            throw errors.physicalPathNotExists(htmlPath);
+    @pgaeAction
+    g(@serverContext ctx: ServerContext, @routeData d: { html: string }) {
+        console.log(d);
+
+        let staticDir = ctx.rootDirectory.findDirectory("static");
+        console.assert(staticDir != null);
+        let htmlPath = staticDir?.findFile(d.html);
+
+        if (!htmlPath)
+            throw errors.physicalPathNotExists(d.html);
 
         let buffer = fs.readFileSync(htmlPath);
         let html = buffer.toString();

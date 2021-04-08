@@ -13,3 +13,7 @@ export interface WebsiteConfig {
     routers?: { [pagePath: string]: { [key: string]: string } }
 
 }
+
+export interface ContextData {
+
+}

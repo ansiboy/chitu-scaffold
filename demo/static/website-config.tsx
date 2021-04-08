@@ -8,7 +8,7 @@ let websiteConfig: WebsiteConfig = {
         }
     },
     routers: {
-        "/:pageName/:pageName(/:id)": {}
+        "/:pageName/:pageName(/:id)": { html: "preivew.html" }
     },
 
 }

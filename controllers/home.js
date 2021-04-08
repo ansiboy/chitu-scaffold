@@ -8,21 +8,39 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var HomeController_1;
 Object.defineProperty(exports, "__esModule", { value: true });
 const maishu_node_mvc_1 = require("maishu-node-mvc");
-const path = require("path");
 const fs = require("fs");
 const errors_1 = require("../errors");
 const UrlPattern = require("url-pattern");
 const transform_ts_1 = require("maishu-nws-js/out/transform/transform-ts");
 const os = require("os");
 const maishu_toolkit_1 = require("maishu-toolkit");
-let htmlPath = path.join(__dirname, "../static/index.html");
-let HomeController = HomeController_1 = class HomeController {
-    g(ctx) {
-        if (!fs.existsSync(htmlPath))
-            throw errors_1.errors.physicalPathNotExists(htmlPath);
+// let htmlPath = path.join(__dirname, "../static/index.html");
+let pgaeAction = maishu_node_mvc_1.action(function (virtualPath, ctx) {
+    let root = typeof ctx.rootDirectory == "string" ? new maishu_node_mvc_1.VirtualDirectory(ctx.rootDirectory) : ctx.rootDirectory;
+    let websiteConfig = HomeController.loadWebsiteConfig(root);
+    let routers = websiteConfig.routers || {};
+    let keys = Object.keys(routers);
+    for (let i = 0; i < keys.length; i++) {
+        let p = new UrlPattern(keys[i]);
+        let m = p.match(virtualPath);
+        if (m) {
+            Object.assign(m, routers[keys[i]]);
+            m.html = m.html || "index.html";
+            return m;
+        }
+    }
+    return null;
+});
+let HomeController = class HomeController {
+    g(ctx, d) {
+        console.log(d);
+        let staticDir = ctx.rootDirectory.findDirectory("static");
+        console.assert(staticDir != null);
+        let htmlPath = staticDir === null || staticDir === void 0 ? void 0 : staticDir.findFile(d.html);
+        if (!htmlPath)
+            throw errors_1.errors.physicalPathNotExists(d.html);
         let buffer = fs.readFileSync(htmlPath);
         let html = buffer.toString();
         return html;
@@ -64,22 +82,10 @@ let HomeController = HomeController_1 = class HomeController {
     }
 };
 __decorate([
-    maishu_node_mvc_1.action((virtualPath, ctx) => {
-        let root = typeof ctx.rootDirectory == "string" ? new maishu_node_mvc_1.VirtualDirectory(ctx.rootDirectory) : ctx.rootDirectory;
-        let websiteConfig = HomeController_1.loadWebsiteConfig(root);
-        let routers = websiteConfig.routers || {};
-        let keys = Object.keys(routers);
-        for (let i = 0; i < keys.length; i++) {
-            let p = new UrlPattern(keys[i]);
-            let m = p.match(virtualPath);
-            if (m)
-                return m;
-        }
-        return null;
-    }),
-    __param(0, maishu_node_mvc_1.serverContext)
+    pgaeAction,
+    __param(0, maishu_node_mvc_1.serverContext), __param(1, maishu_node_mvc_1.routeData)
 ], HomeController.prototype, "g", null);
-HomeController = HomeController_1 = __decorate([
+HomeController = __decorate([
     maishu_node_mvc_1.controller("/")
 ], HomeController);
 exports.default = HomeController;
