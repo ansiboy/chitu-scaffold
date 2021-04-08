@@ -1,19 +1,5 @@
-export interface WebsiteConfig {
-    requirejs?: {
-        shim?: {
-            [key: string]: { deps?: string[], exports?: string, }
-        },
-        paths?: { [key: string]: string },
-        context?: string,
-        baseUrl?: string,
-    },
-    containers?: { [pageName: string]: string },
-    mode?: "production" | "development",
-
-    routers?: { [pagePath: string]: string }
-
-}
-
+import { WebsiteConfig } from "./types";
+export { WebsiteConfig } from "./types";
 
 let websiteConfig: WebsiteConfig = {
     mode: "development",

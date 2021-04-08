@@ -2,7 +2,6 @@
 import { Application } from "maishu-chitu-react";
 import { pathConcat } from "maishu-toolkit";
 import { WebsiteConfig, default as w } from "./website-config";
-import { PageData } from "maishu-chitu";
 import * as UrlPattern from "url-pattern";
 
 
@@ -90,28 +89,31 @@ class MyApplication extends Application {
             let a = document.createElement("a");
             a.href = url;
             pathname = a.pathname;
-            if (pathname[0] == '/') {
-                pathname = pathname.substr(1);
-            }
         }
         else {
             pathname = url;
         }
 
-        let p = new UrlPattern("*.ct(/*)");
-        let m = p.match(pathname);
-        if (!m)
-            return super.parseUrl(url);
+        if (pathname[0] != "/")
+            pathname = "/" + pathname;
 
-        let pageName = typeof m["_"] == "string" ? m["_"] : m["_"][0];
-        let values: PageData | null = null;
-        let routers = w.routers || {};
-        if (routers[pageName] && Array.isArray(m["_"])) {
-            p = new UrlPattern(routers[pageName]);
-            values = p.match(m["_"][1]);
+        let keys = Object.keys(w.routers);
+        for (let i = 0; i < keys.length; i++) {
+            let p = new UrlPattern(keys[i]);
+            let m = p.match(pathname);
+            if (m) {
+                m = Object.assign(m, w.routers[keys[i]]);
+                if (!m.pageName)
+                    throw new Error("Router parse result is not contains pageName.");
+
+                let pageName = Array.isArray(m.pageName) ? (m.pageName as string[]).join("/") : m.pageName;
+                delete m.pageName;
+                return { pageName, values: m };
+            }
         }
 
-        return { pageName, values: values || {} };
+
+        return super.parseUrl(url);
     }
 
 }

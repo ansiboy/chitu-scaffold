@@ -8,9 +8,9 @@ let websiteConfig: WebsiteConfig = {
         }
     },
     routers: {
-        "test/a": ":id(/*)"
+        "/:pageName/:pageName(/:id)": {}
     },
-    
+
 }
 
 export default websiteConfig

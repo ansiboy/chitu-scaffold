@@ -27,5 +27,17 @@ class Errors extends maishu_toolkit_1.Errors {
         error.name = Errors.prototype.notMatchBaseRouter.name;
         return error;
     }
+    virtualPathNotExists(path) {
+        let msg = `Virtual path '${path}' is not exists.`;
+        let error = new Error(msg);
+        error.name = Errors.prototype.virtualPathNotExists.name;
+        return error;
+    }
+    notFoundWebsiteConfigFile() {
+        let msg = `Can not find website-config file.`;
+        let error = new Error(msg);
+        error.name = Errors.prototype.notFoundWebsiteConfigFile.name;
+        return error;
+    }
 }
 exports.errors = new Errors();

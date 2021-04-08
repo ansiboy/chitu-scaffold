@@ -3,7 +3,8 @@
         "module": "CommonJS",
         "target": "ES6",
         "strict": true,
-        "experimentalDecorators": true
+        "experimentalDecorators": true,
+        "jsx": "react"
     },
     "compileOnSave": true,
     "exclude": [
