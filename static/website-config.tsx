@@ -5,7 +5,6 @@ let websiteConfig: WebsiteConfig = {
     mode: "development",
     requirejs: {
         paths: {
-            "url-pattern": "node_modules/url-pattern/lib/url-pattern"
         }
     }
 }

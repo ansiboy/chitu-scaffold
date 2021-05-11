@@ -1,7 +1,7 @@
 /// <reference path="./declare.d.ts" />
 
 let node_modules = `/node_modules`;
-var requirejsConfig = {
+var developmentRequirejsConfig = {
     "paths": {
         "css": `${node_modules}/maishu-requirejs-plugins/src/css`,
         "text": `${node_modules}/maishu-requirejs-plugins/lib/text`,
@@ -13,6 +13,29 @@ var requirejsConfig = {
         "maishu-chitu-react": `${node_modules}/maishu-chitu-react/dist/index.min`,
         "maishu-chitu-service": `${node_modules}/maishu-chitu-service/dist/index.min`,
         "maishu-dilu": `${node_modules}/maishu-dilu/dist/index.min`,
+        "maishu-dilu-react": `${node_modules}/maishu-dilu-react/dist/index`,
+        "maishu-router": `${node_modules}/maishu-router/dist/index`,
+        "maishu-toolkit": `${node_modules}/maishu-toolkit/dist/index.min`,
+        "maishu-ui-toolkit": `${node_modules}/maishu-ui-toolkit/dist/index.min`,
+        "maishu-wuzhui": `${node_modules}/maishu-wuzhui/dist/index.min`,
+        "maishu-wuzhui-helper": `${node_modules}/maishu-wuzhui-helper/dist/index.min`,
+    }
+}
+
+var productionRequirejsConfig = {
+    "paths": {
+        "css": `${node_modules}/maishu-requirejs-plugins/src/css`,
+        "text": `${node_modules}/maishu-requirejs-plugins/lib/text`,
+        "json": `${node_modules}/maishu-requirejs-plugins/src/json`,
+
+        "react": `${node_modules}/react/umd/react.production.min.js`,
+        "react-dom": `${node_modules}/react-dom/umd/react-dom.production.min.js`,
+        "maishu-chitu": `${node_modules}/maishu-chitu/dist/index`,
+        "maishu-chitu-react": `${node_modules}/maishu-chitu-react/dist/index.min`,
+        "maishu-chitu-service": `${node_modules}/maishu-chitu-service/dist/index.min`,
+        "maishu-dilu": `${node_modules}/maishu-dilu/dist/index.min`,
+        "maishu-dilu-react": `${node_modules}/maishu-dilu-react/dist/index.min`,
+        "maishu-router": `${node_modules}/maishu-router/dist/index`,
         "maishu-toolkit": `${node_modules}/maishu-toolkit/dist/index.min`,
         "maishu-ui-toolkit": `${node_modules}/maishu-ui-toolkit/dist/index.min`,
         "maishu-wuzhui": `${node_modules}/maishu-wuzhui/dist/index.min`,
@@ -26,6 +49,10 @@ requirejs(["website-config"], function (mod: any) {
 })
 
 function loadApplication(config: import("./website-config").WebsiteConfig) {
+
+    config.mode = config.mode || "development";
+    var requirejsConfig = config.mode == "development" ? developmentRequirejsConfig : productionRequirejsConfig;
+
     config.requirejs = config.requirejs || {};
     config.requirejs.paths = Object.assign(config.requirejs.paths || {}, requirejsConfig.paths);
 
