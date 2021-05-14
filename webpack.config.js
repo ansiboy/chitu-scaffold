@@ -6,5 +6,6 @@ module.exports = {
         libraryTarget: 'umd',
         globalObject: 'typeof window === \'undefined\' ? global : window'
     },
-    mode: "production"
+    mode: "production",
+    externals: ["react", "react-dom"],
 }
