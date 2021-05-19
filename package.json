@@ -29,5 +29,5 @@
         "webpack": "^5.28.0"
     },
     "name": "maishu-chitu-scaffold",
-    "version": "1.24.0"
+    "version": "1.24.1"
 }
