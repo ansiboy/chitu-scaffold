@@ -1,12 +1,13 @@
-import { WebsiteConfig } from "./types";
-export { WebsiteConfig } from "./types";
+import { WebsiteConfig as C } from "./types";
 
-let websiteConfig: WebsiteConfig = {
+let websiteConfig: C = {
     mode: "development",
     requirejs: {
         paths: {
         }
     }
 }
+
+export type WebsiteConfig = C;
 
 export default websiteConfig

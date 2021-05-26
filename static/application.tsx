@@ -80,39 +80,7 @@ class MyApplication extends Application {
         return req;
     }
 
-    // parseUrl(url: string) {
 
-    //     let pathname: string;
-    //     if (url.startsWith("http")) {
-    //         let a = document.createElement("a");
-    //         a.href = url;
-    //         pathname = a.pathname;
-    //     }
-    //     else {
-    //         pathname = url;
-    //     }
-
-    //     if (pathname[0] != "/")
-    //         pathname = "/" + pathname;
-
-    //     let keys = Object.keys(w.routers);
-    //     for (let i = 0; i < keys.length; i++) {
-    //         let p = new UrlPattern(keys[i]);
-    //         let m = p.match(pathname);
-    //         if (m) {
-    //             m = Object.assign(m, w.routers[keys[i]]);
-    //             if (!m.pageName)
-    //                 throw new Error("Router parse result is not contains pageName.");
-
-    //             let pageName = Array.isArray(m.pageName) ? (m.pageName as string[]).join("/") : m.pageName;
-    //             delete m.pageName;
-    //             return { pageName, values: m };
-    //         }
-    //     }
-
-
-    //     return super.parseUrl(url);
-    // }
 
 }
 
