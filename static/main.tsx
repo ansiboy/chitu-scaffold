@@ -61,21 +61,28 @@ function loadApplication(config: import("./website-config").WebsiteConfig) {
     let req = requirejs.config(config.requirejs || {});
 
     let init = function () {
-        req(["application", "init"], async (mod, initModule) => {
+        req(["./application.js", "./init.js"], function (mod, initModule) {
             let app = mod.run(config, req);
             let func = initModule.default || initModule;
             if (typeof func != "function") {
                 console.log("Export of init module is not a function.");
             }
             else {
-                await func(app);
-                app.run();
+                let p = func(app);
+                if (p != null && p.then != null) {
+                    p.then(() => {
+                        app.run();
+                    })
+                }
+                else {
+                    app.run();
+                }
             }
         });
     }
 
     if (config.mode == "production") {
-        req(["/pre-required.js", "react", "react-dom"], function (prerequired) {
+        req(["./pre-required.js", "react", "react-dom"], function (prerequired) {
             let keys = Object.getOwnPropertyNames(prerequired);
             for (let i = 0; i < keys.length; i++) {
                 define(keys[i], function () {
