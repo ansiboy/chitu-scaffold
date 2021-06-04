@@ -1,6 +1,20 @@
-import { WebsiteConfig as C } from "./types";
+export interface WebsiteConfig {
+    requirejs?: {
+        shim?: {
+            [key: string]: { deps?: string[], exports?: string, }
+        },
+        paths?: { [key: string]: string },
+        context?: string,
+        baseUrl?: string,
+    },
+    containers?: { [pageName: string]: string },
+    mode?: "production" | "development",
 
-let websiteConfig: C = {
+    routers?: { [pagePath: string]: { [key: string]: string } }
+
+}
+
+let websiteConfig: WebsiteConfig = {
     mode: "development",
     requirejs: {
         paths: {
@@ -8,6 +22,6 @@ let websiteConfig: C = {
     }
 }
 
-export type WebsiteConfig = C;
+
 
 export default websiteConfig
