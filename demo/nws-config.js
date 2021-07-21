@@ -1,8 +1,8 @@
-const { sourceVirtualPaths } = require("../index");
-let fileVirtualPaths = sourceVirtualPaths(__dirname);
+const { getVirtualPaths } = require("../index");
+let fileVirtualPaths = getVirtualPaths();
 const m = require("maishu-node-mvc");
 
-
+debugger
 module.exports = {
     "port": 5262,
     virtualPaths: fileVirtualPaths,

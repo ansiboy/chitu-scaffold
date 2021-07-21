@@ -7,8 +7,8 @@ var developmentRequirejsConfig = {
         "text": `${node_modules}/maishu-requirejs-plugins/lib/text`,
         "json": `${node_modules}/maishu-requirejs-plugins/src/json`,
 
-        "react": `${node_modules}/react/umd/react.production.min`,
-        "react-dom": `${node_modules}/react-dom/umd/react-dom.production.min`,
+        "react": `${node_modules}/react/umd/react.development.min`,
+        "react-dom": `${node_modules}/react-dom/umd/react-dom.development.min`,
         "maishu-chitu": `${node_modules}/maishu-chitu/dist/index`,
         "maishu-chitu-react": `${node_modules}/maishu-chitu-react/dist/index.min`,
         "maishu-chitu-service": `${node_modules}/maishu-chitu-service/dist/index.min`,
